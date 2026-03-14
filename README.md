@@ -120,6 +120,32 @@ npm run dev
 
 ---
 
+## 🧪 Testing
+
+Il sistema di test usa **Vitest** con mock di Prisma e grammY. I test non richiedono un database reale né connessioni a Telegram.
+
+### Eseguire i test
+
+```bash
+# Esecuzione singola
+docker compose run --rm backend npm test
+
+# Watch mode (riesegue ad ogni modifica)
+docker compose run --rm backend npm run test:watch
+
+# Con report di coverage
+docker compose run --rm backend npm run test:coverage
+```
+
+### Struttura dei test
+
+| File                               | Tipo        | Cosa testa                                       |
+|------------------------------------|-------------|--------------------------------------------------|
+| `src/__tests__/botManager.test.ts` | Unit        | `BotManager`: start, stop, init, resilienza      |
+| `src/__tests__/api.test.ts`        | Integration | Tutte le route REST: risposte, validazione, 404  |
+
+---
+
 ## 🤖 Istruzioni Cruciali per gli Agenti LLM (AI Context)
 
 Se sei un'Intelligenza Artificiale che sta assistendo lo sviluppatore in questo progetto, **DEVI** rispettare le seguenti regole in ogni tua risposta o generazione di codice:

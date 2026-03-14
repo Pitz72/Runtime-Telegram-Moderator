@@ -12,7 +12,7 @@ COPY tsconfig.json ./
 FROM base AS dev
 
 RUN npm install
-RUN npx prisma generate
+RUN DATABASE_URL="file:./dev.db" npx prisma generate
 
 COPY src/ ./src/
 
@@ -24,7 +24,7 @@ CMD ["sh", "-c", "npx prisma migrate deploy && npm run dev"]
 FROM base AS builder
 
 RUN npm install
-RUN npx prisma generate
+RUN DATABASE_URL="file:./dev.db" npx prisma generate
 
 COPY src/ ./src/
 

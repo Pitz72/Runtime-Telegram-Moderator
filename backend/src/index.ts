@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import { fileURLToPath } from "url";
 import { botManager, prisma } from "./botManager/index.js";
 
 const app = express();
@@ -104,4 +105,9 @@ const startServer = async () => {
   }
 };
 
-startServer();
+export { app };
+
+// Avvia il server solo quando il file è eseguito direttamente (non durante i test)
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  startServer();
+}

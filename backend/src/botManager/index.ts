@@ -1,7 +1,11 @@
 import { Bot } from "grammy";
 import { PrismaClient } from "@prisma/client";
+import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 
-const prisma = new PrismaClient();
+const dbUrl = process.env.DATABASE_URL ?? "file:./dev.db";
+const dbPath = dbUrl.replace("file:", "");
+const adapter = new PrismaBetterSqlite3({ url: dbPath });
+const prisma = new PrismaClient({ adapter });
 
 export class BotManager {
   private activeBots: Map<number, Bot> = new Map();
