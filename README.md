@@ -19,17 +19,29 @@ Il sistema si divide in due macro-ambienti (Monorepo), che comunicano tramite AP
 2.  **La Dashboard di Controllo (Frontend React):**
     Un'interfaccia utente avanzata (ispirata a software desktop professionali) che permette di aggiungere nuovi bot (tramite Bot Token), assegnarli a specifici gruppi e definire le regole di moderazione in modo granulare (per Bot e per Gruppo).
 
+### 📡 API REST Interne (Bot Manager)
+Il backend espone una serie di endpoint per permettere alla dashboard (o altri client autorizzati) di orchestrare la flotta in tempo reale. Queste chiamate interagiscono direttamente con il `BotManager` e la sua `Map` in memoria:
+
+*   `GET /api/bots`: Recupera la lista di tutti i bot, il loro stato (`isRunning`) e il conteggio dei gruppi configurati.
+*   `POST /api/bots`: Registra un nuovo Bot Token nel database.
+*   `POST /api/bots/:id/start`: Forza l'inizializzazione e l'avvio del polling per un bot specifico.
+*   `POST /api/bots/:id/stop`: Ferma immediatamente l'istanza del bot e la rimuove dalla memoria attiva.
+
 ---
 
 ## 🛠️ Stack Tecnologico Obbligatorio
 
 Qualsiasi sviluppo su questa repository deve rigorosamente rispettare il seguente stack:
 
-*   **Linguaggio Globale:** `TypeScript` (Strict Mode) - Nessun file `.js` puro ammesso, la tipizzazione è vitale per la comunicazione Frontend-Backend.
-*   **Backend Framework:** `Node.js` con `Express.js`.
-*   **Database & ORM:** `SQLite` gestito tramite `Prisma ORM`.
-*   **Libreria Telegram:** `grammY` (scelta obbligata per la gestione robusta di bot multipli e middleware in TypeScript).
-*   **Frontend Framework:** `React` (inizializzato con `Vite`).
+*   **Linguaggio Globale:** `TypeScript` (Strict Mode). Il progetto utilizza nativamente i moduli **ESM** (`"type": "module"` nel `package.json`) e la risoluzione `NodeNext` nel `tsconfig.json` per garantire la massima modernità e performance.
+*   **Backend Framework:** `Node.js` con **Express 5**. 
+    > [!IMPORTANT]
+    > Express 5 richiede un casting rigoroso dei tipi per i `req.params`, in quanto possono essere interpretati come array di stringhe.
+*   **Database & ORM:** **Prisma 7** con `SQLite`. 
+    > [!NOTE]
+    > In Prisma 7 la configurazione del datasource (e della URL del DB) risiede esclusivamente nel file `prisma.config.ts` gestito tramite `@prisma/config`, lasciando il file `.prisma` dedicato solo alla definizione dei modelli.
+*   **Libreria Telegram:** `grammY` (gestione robusta di bot multipli e middleware).
+*   **Frontend Framework:** `React` (Vite).
 *   **Styling UI:** `Tailwind CSS`.
 
 ---
@@ -77,4 +89,3 @@ Se sei un'Intelligenza Artificiale che sta assistendo lo sviluppatore in questo 
 3.  **Step-by-Step:** Sviluppa moduli isolati. Non sovrascrivere l'intera architettura se ti viene richiesto di implementare una singola funzionalità. Segui fedelmente i prompt nucleari forniti dallo sviluppatore.
 4.  **Gestione Errori:** Nel contesto Multi-Bot, un token revocato o un bot espulso da un gruppo non deve **MAI** far crashare l'intero server Node.js. Usa blocchi `try/catch` per isolare le eccezioni al singolo bot.
 5.  **Strict TypeScript:** Definisci sempre le interfacce (`interface` o `type`) per le risposte API e le configurazioni del bot. Niente `any`.
-
