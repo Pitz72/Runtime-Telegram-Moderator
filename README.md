@@ -65,3 +65,16 @@ titan-moderator/
         ├── pages/        # Viste della dashboard
         └── api/          # Chiamate Axios verso il backend
 ```
+
+---
+
+## 🤖 Istruzioni Cruciali per gli Agenti LLM (AI Context)
+
+Se sei un'Intelligenza Artificiale che sta assistendo lo sviluppatore in questo progetto, **DEVI** rispettare le seguenti regole in ogni tua risposta o generazione di codice:
+
+1.  **Pensa Multi-Bot:** Non scrivere **MAI** codice come `const bot = new Bot(process.env.TOKEN); bot.start();` nel backend. Tutte le istanze bot devono essere gestite da una classe `BotManager` che le preleva dal database Prisma.
+2.  **Isolamento del Contesto:** Quando scrivi la logica di un comando Telegram o un ascoltatore di eventi (es. `bot.on('message')`), ricordati sempre che il bot deve prima verificare le regole nel database specifiche per quel gruppo e per quel bot.
+3.  **Step-by-Step:** Sviluppa moduli isolati. Non sovrascrivere l'intera architettura se ti viene richiesto di implementare una singola funzionalità. Segui fedelmente i prompt nucleari forniti dallo sviluppatore.
+4.  **Gestione Errori:** Nel contesto Multi-Bot, un token revocato o un bot espulso da un gruppo non deve **MAI** far crashare l'intero server Node.js. Usa blocchi `try/catch` per isolare le eccezioni al singolo bot.
+5.  **Strict TypeScript:** Definisci sempre le interfacce (`interface` o `type`) per le risposte API e le configurazioni del bot. Niente `any`.
+
