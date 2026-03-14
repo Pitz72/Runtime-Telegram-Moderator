@@ -1,0 +1,17 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      target: dev
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      DATABASE_URL: "file:/app/data/titan.db"
+    volumes:
+      - ./backend/src:/app/src   # hot-reload
+      - db_data:/app/data        # SQLite persistence
+    restart: unless-stopped
+
+volumes:
+  db_data:

@@ -80,6 +80,46 @@ titan-moderator/
 
 ---
 
+## 🚀 Avvio dell'Ambiente di Sviluppo
+
+### Prerequisiti
+- [Docker](https://docs.docker.com/get-docker/) e [Docker Compose](https://docs.docker.com/compose/) installati.
+
+### Avvio con Docker (consigliato)
+
+```bash
+docker compose up --build
+```
+
+Il container esegue automaticamente le migrazioni Prisma al primo avvio e si riavvia ad ogni modifica ai file in `backend/src/` (hot-reload via `nodemon`).
+
+Il database SQLite è persistito nel volume Docker `db_data` e sopravvive ai riavvii del container.
+
+| Servizio    | URL                              |
+|-------------|----------------------------------|
+| Backend API | `http://localhost:3000/api/bots` |
+
+### Avvio locale (senza Docker)
+
+```bash
+cd backend
+npm install
+npx prisma migrate deploy
+npm run dev
+```
+
+> [!NOTE]
+> In locale il database viene creato in `backend/dev.db`. Con Docker viene usato il volume `db_data` con path interno `/app/data/titan.db`.
+
+### Variabili d'Ambiente
+
+| Variabile      | Default          | Descrizione               |
+|----------------|------------------|---------------------------|
+| `PORT`         | `3000`           | Porta del server Express  |
+| `DATABASE_URL` | `file:./dev.db`  | Path del database SQLite  |
+
+---
+
 ## 🤖 Istruzioni Cruciali per gli Agenti LLM (AI Context)
 
 Se sei un'Intelligenza Artificiale che sta assistendo lo sviluppatore in questo progetto, **DEVI** rispettare le seguenti regole in ogni tua risposta o generazione di codice:
