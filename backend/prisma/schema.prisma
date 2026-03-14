@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Bot {
+  id           Int           @id @default(autoincrement())
+  name         String
+  token        String        @unique
+  isRunning    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  groupConfigs GroupConfig[]
+  logs         Log[]
+}
+
+model GroupConfig {
+  id               Int     @id @default(autoincrement())
+  botId            Int
+  bot              Bot     @relation(fields: [botId], references: [id])
+  groupId          String
+  groupName        String?
+  captchaEnabled   Boolean @default(false)
+  nightModeEnabled Boolean @default(false)
+  nightModeStart   String?
+  nightModeEnd     String?
+  bannedWords      String? // Separato da virgole o JSON stringhificato
+
+  @@unique([botId, groupId])
+}
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  botId     Int
+  bot       Bot      @relation(fields: [botId], references: [id])
+  groupId   String?
+  level     String   // INFO, WARN, ERROR
+  message   String
+  timestamp DateTime @default(now())
+}
