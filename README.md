@@ -1,7 +1,17 @@
 # 🛡️ Runtime TelegramBot Moderator (v0.1.0) - Multi-Bot Fleet Edition
 
+<p align="center">
+  <img src="PROTOTIPO-INTEFACCIA-TEMP/logo.png" width="25%" alt="Runtime TelegramBot Moderator Logo">
+</p>
+
 Benvenuti nel sistema di moderazione Telegram di nuova generazione.
-**Runtime TelegramBot Moderator** è un'applicazione web self-hosted di livello Enterprise progettata per la gestione automatizzata, la moderazione e la sicurezza di molteplici gruppi e canali Telegram. 
+
+**Runtime TelegramBot Moderator** è un'applicazione web self-hosted di livello Enterprise progettata per la gestione automatizzata, la moderazione e la sicurezza di molteplici gruppi e canali Telegram.
+
+Alcune caratteristiche principali:
+- **Privacy-First**: Nessun dato lascia il tuo server.
+- **Multi-Bot**: Gestisci infiniti bot da un'unica dashboard.
+- **Automazione**: Moderazione intelligente 24/7.
 
 A differenza dei tradizionali bot di moderazione pubblici (che sollevano enormi problemi di privacy leggendo i dati di tutti gli utenti), questo software nasce con una filosofia **Privacy-First e Zero-Dependencies**. Tutto risiede sul server dell'utente.
 
@@ -114,7 +124,8 @@ Il database SQLite è persistito nel volume Docker `db_data` e sopravvive ai ria
 ---
 
 > [!NOTE]
-> La cartella `PROTOTIPO-INTEFACCIA-TEMP` contiene le bozze statiche del prototipo finale dell'interfaccia. Queste bozze sono fornite come riferimento per lo sviluppo futuro, ma la loro implementazione completa sarà discussa solo al termine del core engine.
+> La cartella `PROTOTIPO-INTEFACCIA-TEMP` contiene le bozze statiche del prototipo finale dell'interfaccia e il **logo ufficiale** (`logo.png`).
+> Queste bozze, insieme al logo (che andrà ottimizzato, ridimensionato e rinominato per le varie esigenze: UI, icone EXE, ecc.), sono fornite come riferimento per lo sviluppo futuro. La loro implementazione completa sarà discussa solo al termine del core engine.
 
 ### Avvio locale (senza Docker)
 

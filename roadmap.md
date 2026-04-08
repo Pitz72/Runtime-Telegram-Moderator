@@ -1,6 +1,11 @@
 # 🛡️ Runtime TelegramBot Moderator (v0.1.0) - Multi-Bot Fleet Edition
 
-Questo documento delinea gli step architetturali e operativi per portare il Runtime Moderator dalla sua infrastruttura consolidata (v0.1.0) alla release di produzione (v1.0.0).
+# 🛡️ **Runtime TelegramBot Moderator** è un'applicazione web self-hosted di livello Enterprise progettata per la gestione automatizzata, la moderazione e la sicurezza di molteplici gruppi e canali Telegram.
+
+Alcune caratteristiche principali:
+- **Privacy-First**: Nessun dato lascia il tuo server.
+- **Multi-Bot**: Gestisci infiniti bot da un'unica dashboard.
+- **Automazione**: Moderazione intelligente 24/7.
 
 ## 🟢 Fase 0: Infrastruttura & QA (COMPLETATA - v0.1.0)
 
@@ -72,4 +77,8 @@ Questo documento delinea gli step architetturali e operativi per portare il Runt
 ---
 
 > [!NOTE]
-> La cartella `PROTOTIPO-INTEFACCIA-TEMP` contiene le bozze statiche del prototipo finale dell'interfaccia. Queste bozze sono fornite come riferimento per lo sviluppo futuro, ma la loro implementazione completa sarà discussa solo al termine del core engine.
+> La cartella `PROTOTIPO-INTEFACCIA-TEMP` contiene le bozze statiche del prototipo finale dell'interfaccia e il **logo ufficiale** (`logo.png`).
+> Queste bozze, insieme al logo (che andrà ottimizzato, ridimensionato e rinominato per le varie esigenze: UI, icone EXE, ecc.), sono fornite come riferimento per lo sviluppo futuro. La loro implementazione completa sarà discussa solo al termine del core engine.
+
+> [!IMPORTANT]
+> Il file `logo.png` deve essere trattato come asset di branding primario: non eliminare o sovrascrivere senza backup, poiché rappresenta l'identità visiva del progetto.
