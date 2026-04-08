@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Runtime - Live Activity Logs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0e0e;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0e0e0e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484847;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "on-surface": "#ffffff",
+                "on-tertiary-fixed-variant": "#6e1354",
+                "secondary-dim": "#40b2f0",
+                "on-tertiary-fixed": "#3b002b",
+                "inverse-surface": "#fcf9f8",
+                "on-error": "#490013",
+                "secondary": "#52c0ff",
+                "primary": "#a3a6ff",
+                "secondary-fixed": "#a2d8ff",
+                "primary-dim": "#6063ee",
+                "on-primary-fixed": "#000000",
+                "secondary-fixed-dim": "#7eccff",
+                "on-primary-container": "#0a0081",
+                "tertiary-container": "#ff8ed2",
+                "inverse-on-surface": "#565555",
+                "tertiary-fixed-dim": "#ef81c4",
+                "on-secondary-fixed-variant": "#00567b",
+                "surface-container-low": "#131313",
+                "surface-container": "#1a1a1a",
+                "on-secondary-container": "#f3f8ff",
+                "on-surface-variant": "#adaaaa",
+                "on-tertiary": "#701455",
+                "surface-bright": "#2c2c2c",
+                "on-primary": "#0f00a4",
+                "tertiary-fixed": "#ff8ed2",
+                "inverse-primary": "#494bd7",
+                "primary-container": "#9396ff",
+                "on-error-container": "#ffb2b9",
+                "error-dim": "#d73357",
+                "surface-container-lowest": "#000000",
+                "primary-fixed": "#9396ff",
+                "on-primary-fixed-variant": "#0e009d",
+                "primary-fixed-dim": "#8387ff",
+                "surface-variant": "#262626",
+                "on-tertiary-container": "#63054a",
+                "tertiary": "#ffa5d9",
+                "on-secondary-fixed": "#003852",
+                "on-secondary": "#003953",
+                "on-background": "#ffffff",
+                "surface-tint": "#a3a6ff",
+                "surface-container-high": "#20201f",
+                "surface-container-highest": "#262626",
+                "error": "#ff6e84",
+                "background": "#0e0e0e",
+                "surface-dim": "#0e0e0e",
+                "secondary-container": "#00658f",
+                "tertiary-dim": "#ef81c4",
+                "outline-variant": "#484847",
+                "error-container": "#a70138",
+                "outline": "#767575",
+                "surface": "#0e0e0e"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="flex flex-col h-full fixed left-0 top-0 pt-20 pb-4 bg-[#131313] w-64 border-r border-zinc-800/30 z-40 hidden md:flex font-['Inter'] font-medium text-[13px]">
+<div class="px-6 mb-8">
+<h1 class="text-xl font-bold text-white">Runtime Admin</h1>
+<p class="text-zinc-500 text-xs">Superuser</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-zinc-500 hover:text-zinc-300 px-4 py-3 flex items-center gap-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined text-zinc-500" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="text-zinc-500 hover:text-zinc-300 px-4 py-3 flex items-center gap-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined text-zinc-500" data-icon="precision_manufacturing">precision_manufacturing</span>
+<span>Bot Fleet</span>
+</a>
+<a class="text-zinc-500 hover:text-zinc-300 px-4 py-3 flex items-center gap-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined text-zinc-500" data-icon="gavel">gavel</span>
+<span>Group Rules</span>
+</a>
+<a class="text-white bg-indigo-600/10 border-l-2 border-indigo-500 px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-indigo-400" data-icon="receipt_long">receipt_long</span>
+<span>Activity Logs</span>
+</a>
+<a class="text-zinc-500 hover:text-zinc-300 px-4 py-3 flex items-center gap-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined text-zinc-500" data-icon="settings">settings</span>
+<span>System Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full bg-gradient-to-br from-primary-dim to-primary text-on-primary font-bold py-2.5 rounded-lg active:scale-95 transition-transform text-sm uppercase tracking-wider">
+                Deploy New Bot
+            </button>
+<div class="space-y-1 pt-4 border-t border-zinc-800/30">
+<a class="text-zinc-500 hover:text-zinc-300 px-2 py-2 flex items-center gap-3 text-xs" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="text-zinc-500 hover:text-zinc-300 px-2 py-2 flex items-center gap-3 text-xs" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="description">description</span>
+<span>Documentation</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center w-full px-6 h-16 border-b border-zinc-800/50 bg-[#0e0e0e] fixed top-0 left-0 z-50 font-['Inter'] text-sm tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-lg font-black tracking-tighter text-white uppercase">Runtime Dash v0.1.0</span>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">search</span>
+<input class="bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary text-xs w-64 pl-10 rounded-lg" placeholder="Global system search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-zinc-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+</button>
+<button class="p-2 text-zinc-500 hover:text-white transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 ml-4 bg-surface-container px-3 py-1.5 rounded-full border border-outline-variant/10">
+<span class="text-xs font-bold text-white">S. Connor</span>
+<span class="material-symbols-outlined text-indigo-400" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-16 min-h-screen bg-surface">
+<div class="p-6 lg:p-10 max-w-[1600px] mx-auto">
+<!-- Terminal Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-white mb-2">Live Activity Logs</h2>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-2 py-0.5 bg-green-500/10 text-green-400 rounded border border-green-500/20 text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                            Live Stream Active
+                        </div>
+<span class="text-zinc-500 text-xs">Viewing 1,248 packets/sec</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface-variant hover:text-white border border-outline-variant/20 rounded-lg transition-all text-sm font-medium">
+<span class="material-symbols-outlined text-sm" data-icon="delete_sweep">delete_sweep</span>
+                        Clear Logs
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-all text-sm font-bold shadow-lg shadow-indigo-500/10">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                        Export Logs
+                    </button>
+</div>
+</div>
+<!-- Terminal-Style Activity Interface -->
+<div class="bg-surface-container-lowest rounded-xl border border-zinc-800/40 overflow-hidden shadow-2xl flex flex-col h-[700px]">
+<!-- Terminal Toolbar -->
+<div class="bg-surface-container px-4 py-3 border-b border-zinc-800/60 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#28c840]"></div>
+</div>
+<div class="h-4 w-px bg-zinc-700"></div>
+<span class="text-xs font-mono text-zinc-500 select-none">root@runtime-moderator:~/logs</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-xs">
+<label class="flex items-center gap-2 text-zinc-400 cursor-pointer hover:text-white transition-colors">
+<input checked="" class="rounded border-zinc-700 bg-surface text-indigo-500 focus:ring-0" type="checkbox"/>
+<span>INFO</span>
+</label>
+<label class="flex items-center gap-2 text-zinc-400 cursor-pointer hover:text-white transition-colors">
+<input checked="" class="rounded border-zinc-700 bg-surface text-indigo-500 focus:ring-0" type="checkbox"/>
+<span>WARN</span>
+</label>
+<label class="flex items-center gap-2 text-zinc-400 cursor-pointer hover:text-white transition-colors">
+<input checked="" class="rounded border-zinc-700 bg-surface text-indigo-500 focus:ring-0" type="checkbox"/>
+<span>ERROR</span>
+</label>
+</div>
+<div class="h-4 w-px bg-zinc-700"></div>
+<button class="text-zinc-500 hover:text-white">
+<span class="material-symbols-outlined text-lg" data-icon="search">search</span>
+</button>
+</div>
+</div>
+<!-- Log Table Area -->
+<div class="flex-1 overflow-auto bg-[#050505]">
+<table class="w-full text-left font-mono text-[13px] border-collapse">
+<thead class="sticky top-0 bg-[#050505] border-b border-zinc-800/40 text-zinc-600 uppercase text-[11px] tracking-widest z-10">
+<tr>
+<th class="py-3 px-6 font-semibold w-56">Timestamp</th>
+<th class="py-3 px-6 font-semibold w-40">Bot Name</th>
+<th class="py-3 px-6 font-semibold w-24">Level</th>
+<th class="py-3 px-6 font-semibold">Message</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-900/50">
+<!-- INFO Log -->
+<tr class="hover:bg-indigo-500/5 transition-colors group">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:11.842</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">Runtime-Alpha-01</td>
+<td class="py-2.5 px-6">
+<span class="text-indigo-400 font-bold">INFO</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">System handshake initiated with Telegram API cluster [Region: US-East-1]</td>
+</tr>
+<!-- ERROR Log -->
+<tr class="hover:bg-error/5 transition-colors group bg-error/5">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:12.105</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">Runtime-Alpha-01</td>
+<td class="py-2.5 px-6">
+<span class="text-error font-bold">ERROR</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">Connection timeout: Protocol exception at 0x4429FF. Attempting reconnection...</td>
+</tr>
+<!-- INFO Log -->
+<tr class="hover:bg-indigo-500/5 transition-colors group">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:14.331</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">Runtime-Gamma-04</td>
+<td class="py-2.5 px-6">
+<span class="text-indigo-400 font-bold">INFO</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">Filtered spam message from user @crypto_bot_772 in group #9921</td>
+</tr>
+<!-- WARN Log -->
+<tr class="hover:bg-yellow-500/5 transition-colors group">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:15.002</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">Runtime-Beta-02</td>
+<td class="py-2.5 px-6">
+<span class="text-yellow-500 font-bold">WARN</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">Latency spike detected in Webhook response [2.4s]. Threshold: 1.0s.</td>
+</tr>
+<!-- INFO Log -->
+<tr class="hover:bg-indigo-500/5 transition-colors group">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:15.918</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">System-Core</td>
+<td class="py-2.5 px-6">
+<span class="text-indigo-400 font-bold">INFO</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">Scheduled database optimization complete. 1.2M rows indexed.</td>
+</tr>
+<!-- ERROR Log -->
+<tr class="hover:bg-error/5 transition-colors group bg-error/5">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:16.442</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">Runtime-Alpha-01</td>
+<td class="py-2.5 px-6">
+<span class="text-error font-bold">ERROR</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">CRITICAL: API key revoked by Telegram. Suspension notice sent to administrator.</td>
+</tr>
+<!-- INFO Log -->
+<tr class="hover:bg-indigo-500/5 transition-colors group">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:17.110</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">Runtime-Delta-09</td>
+<td class="py-2.5 px-6">
+<span class="text-indigo-400 font-bold">INFO</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">New moderator rule 'No-Self-Promotion' applied to group #Global_Market</td>
+</tr>
+<!-- INFO Log -->
+<tr class="hover:bg-indigo-500/5 transition-colors group">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:18.001</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">Runtime-Gamma-04</td>
+<td class="py-2.5 px-6">
+<span class="text-indigo-400 font-bold">INFO</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">User @Alice banned for repeated policy violations.</td>
+</tr>
+<!-- INFO Log -->
+<tr class="hover:bg-indigo-500/5 transition-colors group">
+<td class="py-2.5 px-6 text-zinc-500">2023-11-24 14:02:18.552</td>
+<td class="py-2.5 px-6 font-medium text-zinc-300">Runtime-Beta-02</td>
+<td class="py-2.5 px-6">
+<span class="text-indigo-400 font-bold">INFO</span>
+</td>
+<td class="py-2.5 px-6 text-zinc-400 group-hover:text-zinc-200">Auto-scaling complete. Added 2 task worker nodes to cluster.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Terminal Bottom Status Bar -->
+<div class="bg-surface-container-lowest border-t border-zinc-800/60 px-6 py-3 flex items-center justify-between font-mono">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-zinc-500 uppercase tracking-tighter">Status:</span>
+<span class="text-[10px] text-secondary font-bold uppercase">Syncing...</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-zinc-500 uppercase tracking-tighter">Ping:</span>
+<span class="text-[10px] text-secondary font-bold">12ms</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[10px] text-zinc-500">
+<span>Lines: 12,482</span>
+<span>UTF-8</span>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[12px]" data-icon="cloud_done">cloud_done</span>
+<span>Secure Channel</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Dashboard Analytics Grid (Supporting Context) -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Health Card -->
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-[11px] text-on-surface-variant font-bold uppercase tracking-[0.2em] mb-1">System Health</p>
+<p class="text-2xl font-black text-white">99.98%</p>
+</div>
+<div class="p-2 bg-indigo-500/10 rounded-lg">
+<span class="material-symbols-outlined text-indigo-400" data-icon="bolt">bolt</span>
+</div>
+</div>
+<div class="w-full bg-zinc-800 h-1 rounded-full overflow-hidden">
+<div class="bg-indigo-500 h-full w-[99%]"></div>
+</div>
+</div>
+<!-- Error Rate Card -->
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-[11px] text-on-surface-variant font-bold uppercase tracking-[0.2em] mb-1">Error Rate (24h)</p>
+<p class="text-2xl font-black text-white">0.02%</p>
+</div>
+<div class="p-2 bg-error/10 rounded-lg">
+<span class="material-symbols-outlined text-error" data-icon="error_outline">error_outline</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs text-green-400">
+<span class="material-symbols-outlined text-xs" data-icon="trending_down">trending_down</span>
+<span>-4% from yesterday</span>
+</div>
+</div>
+<!-- Active Sessions Card -->
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-[11px] text-on-surface-variant font-bold uppercase tracking-[0.2em] mb-1">Active Sessions</p>
+<p class="text-2xl font-black text-white">412</p>
+</div>
+<div class="p-2 bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="hub">hub</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs text-secondary">
+<span class="material-symbols-outlined text-xs" data-icon="sensors">sensors</span>
+<span>All clusters nominal</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low border-t border-zinc-800/50 flex justify-around items-center h-16 z-50">
+<button class="flex flex-col items-center gap-1 text-zinc-500">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-zinc-500">
+<span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+<span class="text-[10px]">Fleet</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="text-[10px]">Logs</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-zinc-500">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px]">Setup</span>
+</button>
+</nav>
+<!-- Floating Tooltip / Status -->
+<div class="fixed bottom-6 right-6 hidden lg:block">
+<div class="bg-surface-bright/70 backdrop-blur-xl border border-outline-variant/20 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-lg" data-icon="terminal" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<p class="text-[10px] text-zinc-500 uppercase font-black tracking-widest leading-none mb-1">Terminal Shell</p>
+<p class="text-xs text-on-surface font-medium">Session Active: 04h 12m</p>
+</div>
+</div>
+</div>
+</body></html>

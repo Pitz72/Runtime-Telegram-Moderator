@@ -39,7 +39,7 @@ export class BotManager {
       });
 
       // Comando di test
-      bot.command("ping", (ctx) => ctx.reply("Pong da Titan!"));
+      bot.command("ping", (ctx) => ctx.reply("Pong da Runtime Moderator!"));
 
       // Avvio del bot in background (non await per non bloccare il server)
       bot.start({ drop_pending_updates: true });

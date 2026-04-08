@@ -1,6 +1,6 @@
-# 🛡️ Titan Telegram Moderator (v0.1.0) - Multi-Bot Fleet Edition
+# 🛡️ Runtime TelegramBot Moderator (v0.1.0) - Multi-Bot Fleet Edition
 
-Questo documento delinea gli step architetturali e operativi per portare Titan dalla sua infrastruttura consolidata (v0.1.0) alla release di produzione (v1.0.0).
+Questo documento delinea gli step architetturali e operativi per portare il Runtime Moderator dalla sua infrastruttura consolidata (v0.1.0) alla release di produzione (v1.0.0).
 
 ## 🟢 Fase 0: Infrastruttura & QA (COMPLETATA - v0.1.0)
 
@@ -20,7 +20,7 @@ Questo documento delinea gli step architetturali e operativi per portare Titan d
 
 ## 🟡 Fase 2: Sviluppo Dashboard Frontend (React/Vite)
 
-**Obiettivo:** Creare l'interfaccia UI (stile "Titan Desktop") per gestire i bot senza usare chiamate API manuali.
+**Obiettivo:** Creare l'interfaccia UI (stile "Runtime Moderator") per gestire i bot senza usare chiamate API manuali.
 
 - [ ] **Setup React:** Inizializzazione Vite + React + TypeScript + Tailwind CSS.
 - [ ] **API Client:** Configurazione di Axios per dialogare con `localhost:3000/api`.
@@ -62,9 +62,14 @@ Questo documento delinea gli step architetturali e operativi per portare Titan d
 
 ## 🟣 Fase 5: Packaging e Distribuzione (Release)
 
-**Obiettivo:** Rendere Titan installabile da chiunque su un VPS con un singolo comando.
+**Obiettivo:** Rendere il Runtime Moderator installabile da chiunque su un VPS con un singolo comando.
 
 - [x] Dockerizzazione Backend (Sviluppo).
 - [ ] Dockerizzazione Multi-stage (Produzione: Frontend + Backend).
 - [ ] **Docker Compose:** Creazione di un `docker-compose.yml` per mappare il volume del database SQLite esternamente, garantendo la persistenza dei dati durante gli aggiornamenti.
 - [ ] **Sicurezza (Autenticazione Admin):** Aggiunta di un semplice login JWT al backend e al frontend per evitare che chiunque conosca l'IP del server possa accedere alla dashboard.
+
+---
+
+> [!NOTE]
+> La cartella `PROTOTIPO-INTEFACCIA-TEMP` contiene le bozze statiche del prototipo finale dell'interfaccia. Queste bozze sono fornite come riferimento per lo sviluppo futuro, ma la loro implementazione completa sarà discussa solo al termine del core engine.

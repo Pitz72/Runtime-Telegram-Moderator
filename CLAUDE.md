@@ -1,4 +1,4 @@
-# CLAUDE.md — Istruzioni operative per Claude Code
+# CLAUDE.md — Istruzioni operative per il Runtime Moderator
 
 Questo file definisce come Claude deve operare su questo progetto. Va letto prima di qualsiasi altra attività.
 
@@ -82,7 +82,7 @@ I test si trovano in `backend/src/__tests__/`. Ogni modulo ha il proprio file:
 
 - Mockare sempre `@prisma/client` e `grammy` nei test unitari.
 - Nei test API, mockare l'intero modulo `../botManager/index.js`.
-- Non usare un database reale nei test: tutto va mockat.
+- Non usare un database reale nei test: tutto va mockato.
 - I file di test vanno in `src/__tests__/` con naming `<modulo>.test.ts`.
 
 ---
@@ -117,4 +117,4 @@ Un token revocato o un errore su un singolo bot non deve mai far crashare il ser
 - Sviluppare moduli isolati, un'entità alla volta.
 - Non sovrascrivere l'architettura esistente per implementare una singola funzionalità.
 - Definire sempre `interface` o `type` per le strutture dati. Mai usare `any`.
-- Aggiungere test per ogni nuovo modulo o route.
+- Aggiungere test per ogni nuovo modulo o route.

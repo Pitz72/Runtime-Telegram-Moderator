@@ -1,31 +1,51 @@
-# 🛡️ Titan Telegram Moderator (Multi-Bot Fleet Edition)
+# 🛡️ Runtime TelegramBot Moderator (v0.1.0) - Multi-Bot Fleet Edition
 
-## 📖 Visione del Progetto
-**Titan Telegram Moderator** è un'applicazione web self-hosted di livello Enterprise progettata per la gestione automatizzata, la moderazione e la sicurezza di molteplici gruppi e canali Telegram. 
+Benvenuti nel sistema di moderazione Telegram di nuova generazione.
+**Runtime TelegramBot Moderator** è un'applicazione web self-hosted di livello Enterprise progettata per la gestione automatizzata, la moderazione e la sicurezza di molteplici gruppi e canali Telegram. 
 
-A differenza dei tradizionali bot di moderazione pubblici (che sollevano enormi problemi di privacy leggendo i dati di tutti gli utenti), Titan nasce con una filosofia **Privacy-First e Zero-Dependencies**. Tutto risiede sul server dell'utente.
+A differenza dei tradizionali bot di moderazione pubblici (che sollevano enormi problemi di privacy leggendo i dati di tutti gli utenti), questo software nasce con una filosofia **Privacy-First e Zero-Dependencies**. Tutto risiede sul server dell'utente.
 
-Inoltre, Titan non gestisce un singolo bot, ma implementa un'architettura **Multi-Tenant (Bot Fleet)**: permette a un singolo amministratore di configurare, avviare, stoppare e gestire regole per $X$ bot differenti su $X$ canali simultaneamente da un'unica dashboard unificata.
+Inoltre, il sistema non gestisce un singolo bot, ma implementa un'architettura **Multi-Tenant (Bot Fleet)**: permette a un singolo amministratore di configurare, avviare, stoppare e gestire regole per $X$ bot differenti su $X$ canali simultaneamente da un'unica dashboard unificata.
 
 ---
 
-## 🏗️ Architettura di Sistema (Il Paradigma "Titan")
+## 👨‍💻 Autori & Crediti
+
+Questo progetto è sviluppato da:
+
+- **Galano Valerio** (PensierInCodice)
+- **Pizzi Simone** (Ecosystem.Runtime)
+
+---
+
+## 🏗️ Architettura di Sistema (L'approccio Runtime)
 
 Il sistema si divide in due macro-ambienti (Monorepo), che comunicano tramite API REST:
 
-1.  **Il Motore Centrale (Backend Node.js + Bot Manager):**
+1. **Il Motore Centrale (Backend Node.js + Bot Manager):**
     Non esiste un singolo script in ascolto. Il backend utilizza un demone che funge da *Bot Manager*. Questo manager interroga il database e istanzia dinamicamente connessioni Telegram (via long-polling) per ogni bot registrato e contrassegnato come "Attivo". Le istanze dei bot vengono mantenute in memoria tramite una `Map<botId, Istanza>` per consentire lo start/stop in tempo reale senza riavviare il server.
 
-2.  **La Dashboard di Controllo (Frontend React):**
+2. **La Dashboard di Controllo (Frontend React):**
     Un'interfaccia utente avanzata (ispirata a software desktop professionali) che permette di aggiungere nuovi bot (tramite Bot Token), assegnarli a specifici gruppi e definire le regole di moderazione in modo granulare (per Bot e per Gruppo).
 
 ### 📡 API REST Interne (Bot Manager)
+
 Il backend espone una serie di endpoint per permettere alla dashboard (o altri client autorizzati) di orchestrare la flotta in tempo reale. Queste chiamate interagiscono direttamente con il `BotManager` e la sua `Map` in memoria:
 
-*   `GET /api/bots`: Recupera la lista di tutti i bot, il loro stato (`isRunning`) e il conteggio dei gruppi configurati.
-*   `POST /api/bots`: Registra un nuovo Bot Token nel database.
-*   `POST /api/bots/:id/start`: Forza l'inizializzazione e l'avvio del polling per un bot specifico.
-*   `POST /api/bots/:id/stop`: Ferma immediatamente l'istanza del bot e la rimuove dalla memoria attiva.
+-   `GET /api/bots`: Recupera la lista di tutti i bot, il loro stato (`isRunning`) e il conteggio dei gruppi configurati.
+-   `POST /api/bots`: Registra un nuovo Bot Token nel database.
+-   `POST /api/bots/:id/start`: Forza l'inizializzazione e l'avvio del polling per un bot specifico.
+-   `POST /api/bots/:id/stop`: Ferma immediatamente l'istanza del bot e la rimuove dalla memoria attiva.
+
+---
+
+## 🟢 Fase 1: Fondamenta Core (COMPLETATA)
+
+- [x] Inizializzazione Monorepo.
+- [x] Setup SQLite + Prisma 7 (Configurazione ESM/NodeNext).
+- [x] Sviluppo Modelli Relazionali Multi-Tenant (`Bot`, `GroupConfig`, `Log`).
+- [x] Sviluppo `BotManager` (Long-polling dinamico via `grammY` e `Map` in memoria).
+- [x] Sviluppo API REST Express 5 per il controllo della flotta.
 
 ---
 
@@ -33,16 +53,16 @@ Il backend espone una serie di endpoint per permettere alla dashboard (o altri c
 
 Qualsiasi sviluppo su questa repository deve rigorosamente rispettare il seguente stack:
 
-*   **Linguaggio Globale:** `TypeScript` (Strict Mode). Il progetto utilizza nativamente i moduli **ESM** (`"type": "module"` nel `package.json`) e la risoluzione `NodeNext` nel `tsconfig.json` per garantire la massima modernità e performance.
-*   **Backend Framework:** `Node.js` con **Express 5**. 
+- **Linguaggio Globale:** `TypeScript` (Strict Mode). Il progetto utilizza nativamente i moduli **ESM** (`"type": "module"` nel `package.json`) e la risoluzione `NodeNext` nel `tsconfig.json` per garantire la massima modernità e performance.
+- **Backend Framework:** `Node.js` con **Express 5**. 
     > [!IMPORTANT]
     > Express 5 richiede un casting rigoroso dei tipi per i `req.params`, in quanto possono essere interpretati come array di stringhe.
-*   **Database & ORM:** **Prisma 7** con `SQLite`. 
+- **Database & ORM:** **Prisma 7** con `SQLite`. 
     > [!NOTE]
     > In Prisma 7 la configurazione del datasource (e della URL del DB) risiede esclusivamente nel file `prisma.config.ts` gestito tramite `@prisma/config`, lasciando il file `.prisma` dedicato solo alla definizione dei modelli.
-*   **Libreria Telegram:** `grammY` (gestione robusta di bot multipli e middleware).
-*   **Frontend Framework:** `React` (Vite).
-*   **Styling UI:** `Tailwind CSS`.
+- **Libreria Telegram:** `grammY` (gestione robusta di bot multipli e middleware).
+- **Frontend Framework:** `React` (Vite).
+- **Styling UI:** `Tailwind CSS`.
 
 ---
 
@@ -60,14 +80,6 @@ Qualsiasi sviluppo su questa repository deve rigorosamente rispettare il seguent
 
 ```text
 titan-moderator/
-├── .env                  # Variabili d'ambiente globali (Porte, JWT secrets)
-├── README.md             # Questo file (Master Context)
-├── backend/              # Node.js Server & Bot Manager
-│   ├── package.json
-│   ├── prisma/           # Schema Database SQLite
-│   └── src/
-│       ├── index.ts      # Entry point server Express
-│       ├── api/          # Route API REST per il frontend
 │       ├── botManager/   # Logica di orchestrazione grammY (start/stop)
 │       └── services/     # Logica di business (Captcha, Mute, ecc.)
 └── frontend/             # Dashboard React + Vite
@@ -98,6 +110,11 @@ Il database SQLite è persistito nel volume Docker `db_data` e sopravvive ai ria
 | Servizio    | URL                              |
 |-------------|----------------------------------|
 | Backend API | `http://localhost:3000/api/bots` |
+
+---
+
+> [!NOTE]
+> La cartella `PROTOTIPO-INTEFACCIA-TEMP` contiene le bozze statiche del prototipo finale dell'interfaccia. Queste bozze sono fornite come riferimento per lo sviluppo futuro, ma la loro implementazione completa sarà discussa solo al termine del core engine.
 
 ### Avvio locale (senza Docker)
 

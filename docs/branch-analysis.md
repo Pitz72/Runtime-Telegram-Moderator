@@ -13,7 +13,7 @@ Il progetto è passato da un approccio "Proof of Concept" a uno "Enterprise Read
 
 Il merge ha introdotto componenti fondamentali per la scalabilità:
 
-- **`CLAUDE.md`**: Definisce il protocollo di collaborazione per AI e umani.
+- **`CLAUDE.md`**: Definisce il protocollo di collaborazione per il Runtime Moderator.
 - **Docker Stack**: `Dockerfile` e `docker-compose.yml` centralizzano l'infrastruttura.
 - **Testing Layer**: Creazione della cartella `backend/src/__tests__/` per la validazione automatizzata.
 

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Runtime - Group Moderation Configurator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0e0e0e;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0e0e0e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #262626;
+      border-radius: 10px;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-surface": "#ffffff",
+                  "secondary-dim": "#40b2f0",
+                  "secondary": "#52c0ff",
+                  "primary": "#a3a6ff",
+                  "primary-dim": "#6063ee",
+                  "on-primary-container": "#0a0081",
+                  "surface-container-low": "#131313",
+                  "surface-container": "#1a1a1a",
+                  "on-surface-variant": "#adaaaa",
+                  "surface-bright": "#2c2c2c",
+                  "on-primary": "#0f00a4",
+                  "primary-container": "#9396ff",
+                  "surface-container-lowest": "#000000",
+                  "surface-variant": "#262626",
+                  "surface-container-high": "#20201f",
+                  "surface-container-highest": "#262626",
+                  "error": "#ff6e84",
+                  "background": "#0e0e0e",
+                  "outline-variant": "#484847",
+                  "outline": "#767575",
+                  "surface": "#0e0e0e"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.125rem",
+                  "lg": "0.25rem",
+                  "xl": "0.5rem",
+                  "full": "0.75rem"
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="text-on-surface bg-surface selection:bg-primary selection:text-on-primary">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full fixed left-0 top-0 pt-20 pb-4 bg-[#131313] dark:bg-[#131313] border-r border-zinc-800/30 font-['Inter'] font-medium text-[13px] w-64 z-40">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="high contrast studio portrait of a professional male tech lead with clean lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8bj8FAqGshvSnBNmV3RMtSSkQzo0BjsaTTbT1pSWggtSeXEmpKHgi5hbwTXGikeh-N3TYrrBIC-wu5MSak-faQKytVwX-XVRrm10kjlEPV_R5xAgW31ajhJDGNF-I9Kb3L3eQH7p3oCAnRDD9ioOBe5LrSiBMeLLHhusDhvHDFLavmV5k4FS4-Ymf7Klb5yVGzYi1fl1eFCNv1Cg0vX8KDTG_pu9IxCdE7P8vIYJSUXP9aKA2eZ_qN-QFGwxvOyGBU4MmhnmPtjIK"/>
+</div>
+<div>
+<p class="text-white font-bold">Runtime Admin</p>
+<p class="text-zinc-500 text-[11px] uppercase tracking-wider">Superuser</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+<span>Bot Fleet</span>
+</a>
+<a class="flex items-center gap-3 text-white bg-indigo-600/10 border-l-2 border-indigo-500 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span>Group Rules</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>Activity Logs</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>System Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full py-2.5 px-4 bg-gradient-to-tr from-primary-dim to-primary text-on-primary rounded-lg font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
+        Deploy New Bot
+      </button>
+<div class="pt-4 border-t border-zinc-800/30">
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-2 text-xs" href="#">
+<span class="material-symbols-outlined text-lg">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-2 text-xs" href="#">
+<span class="material-symbols-outlined text-lg">description</span>
+<span>Documentation</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-6 h-16 border-b border-zinc-800/50 bg-[#0e0e0e] dark:bg-[#0e0e0e] fixed top-0 z-50 font-['Inter'] text-sm tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-lg font-black tracking-tighter text-white uppercase">Runtime Dash v0.1.0</span>
+<div class="hidden md:flex items-center bg-surface-container-lowest border-b border-outline-variant/30 px-3 py-1.5 w-64 group focus-within:border-secondary transition-colors">
+<span class="material-symbols-outlined text-zinc-500 text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs text-white placeholder-zinc-600 w-full" placeholder="Search parameters..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-zinc-500 hover:bg-[#20201f] transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button class="p-2 text-zinc-500 hover:bg-[#20201f] transition-colors duration-200 active:scale-95 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-1.5 h-1.5 bg-secondary rounded-full"></span>
+</button>
+<button class="p-2 text-zinc-500 hover:bg-[#20201f] transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pl-64 pt-16 min-h-screen">
+<div class="p-8 max-w-7xl mx-auto">
+<!-- Page Header Section -->
+<section class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-1">
+<h1 class="text-4xl font-extrabold tracking-tighter text-white">Group Moderation</h1>
+<p class="text-on-surface-variant text-sm font-medium">Configure automated enforcement rules across your Telegram clusters.</p>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[10px] uppercase font-bold tracking-widest text-secondary-dim px-1">Selected Controller</label>
+<div class="relative min-w-[240px]">
+<select class="w-full bg-surface-container-highest border-none rounded-lg py-3 pl-4 pr-10 text-white text-sm appearance-none focus:ring-2 focus:ring-primary/30 cursor-pointer">
+<option>Runtime_Vortex_Main_Bot</option>
+<option>Alpha_Sentry_Node</option>
+<option>Gamma_Watch_Proxy</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none">expand_more</span>
+</div>
+</div>
+</section>
+<!-- Stats Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="md:col-span-1 bg-surface-container p-6 rounded-xl border-l-2 border-primary">
+<p class="text-[10px] uppercase text-zinc-500 font-bold mb-2">Active Groups</p>
+<p class="text-3xl font-black text-white">142</p>
+</div>
+<div class="md:col-span-1 bg-surface-container p-6 rounded-xl border-l-2 border-secondary">
+<p class="text-[10px] uppercase text-zinc-500 font-bold mb-2">Spam Prevented (24h)</p>
+<p class="text-3xl font-black text-white">1,894</p>
+</div>
+<div class="md:col-span-2 bg-surface-container p-6 rounded-xl flex items-center justify-between">
+<div>
+<p class="text-[10px] uppercase text-zinc-500 font-bold mb-2">System Health</p>
+<p class="text-3xl font-black text-white">Optimal</p>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="w-1.5 h-3 bg-secondary/20"></div>
+<div class="w-1.5 h-5 bg-secondary/40"></div>
+<div class="w-1.5 h-8 bg-secondary"></div>
+<div class="w-1.5 h-6 bg-secondary/60"></div>
+<div class="w-1.5 h-4 bg-secondary/30"></div>
+</div>
+</div>
+</div>
+<!-- Config Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Group Card 1 -->
+<article class="bg-surface-container-low rounded-xl overflow-hidden group hover:bg-surface-container transition-colors duration-300">
+<div class="p-6 border-b border-zinc-800/30 flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-white mb-1">Global Tech Hub</h3>
+<div class="flex items-center gap-2">
+<code class="bg-surface-container-lowest px-2 py-0.5 rounded text-[11px] text-secondary font-mono">CID: -10014298834</code>
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+</div>
+</div>
+<button class="p-2 text-zinc-600 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="p-6 space-y-8">
+<!-- Toggles -->
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-lowest rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-zinc-300">Anti-Spam Captcha</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-8 h-4 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<p class="text-[10px] text-zinc-500">Forces new users to solve visual puzzles.</p>
+</div>
+<div class="p-4 bg-surface-container-lowest rounded-lg border border-transparent peer-checked:border-secondary">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-zinc-300">Night Mode Curfew</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-8 h-4 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<p class="text-[10px] text-zinc-500">Restricts media/links during set hours.</p>
+</div>
+</div>
+<!-- Scheduling -->
+<div class="space-y-3 opacity-50 pointer-events-none transition-opacity duration-300">
+<p class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Curfew Window (Enabled when ON)</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-[11px] text-zinc-400">Start Time</label>
+<input class="bg-surface-container-highest border-none rounded py-2 px-3 text-sm text-white focus:ring-1 focus:ring-secondary/50" type="time" value="23:00"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[11px] text-zinc-400">End Time</label>
+<input class="bg-surface-container-highest border-none rounded py-2 px-3 text-sm text-white focus:ring-1 focus:ring-secondary/50" type="time" value="06:00"/>
+</div>
+</div>
+</div>
+<!-- Banned Words -->
+<div class="space-y-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Banned Lexicon</p>
+<div class="bg-surface-container-lowest p-3 rounded-lg border-b border-outline-variant/30 min-h-[100px] flex flex-wrap gap-2 content-start">
+<span class="bg-zinc-800 text-zinc-300 text-[11px] px-2 py-1 rounded flex items-center gap-1.5">
+                  crypto_giveaway <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error">close</span>
+</span>
+<span class="bg-zinc-800 text-zinc-300 text-[11px] px-2 py-1 rounded flex items-center gap-1.5">
+                  dm_me_fast <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error">close</span>
+</span>
+<span class="bg-zinc-800 text-zinc-300 text-[11px] px-2 py-1 rounded flex items-center gap-1.5">
+                  investment_plan <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error">close</span>
+</span>
+<input class="bg-transparent border-none focus:ring-0 text-[11px] p-0 w-24 placeholder:italic placeholder:text-zinc-700" placeholder="Add word..." type="text"/>
+</div>
+</div>
+</div>
+</article>
+<!-- Group Card 2 -->
+<article class="bg-surface-container-low rounded-xl overflow-hidden group hover:bg-surface-container transition-colors duration-300">
+<div class="p-6 border-b border-zinc-800/30 flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-white mb-1">Runtime Support Alpha</h3>
+<div class="flex items-center gap-2">
+<code class="bg-surface-container-lowest px-2 py-0.5 rounded text-[11px] text-secondary font-mono">CID: -10055621123</code>
+<span class="w-1.5 h-1.5 bg-zinc-600 rounded-full"></span>
+</div>
+</div>
+<button class="p-2 text-zinc-600 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="p-6 space-y-8">
+<!-- Toggles -->
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-lowest rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-zinc-300">Anti-Spam Captcha</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-8 h-4 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<p class="text-[10px] text-zinc-500">Forces new users to solve visual puzzles.</p>
+</div>
+<div class="p-4 bg-surface-container-lowest rounded-lg ring-1 ring-secondary/30">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-zinc-300">Night Mode Curfew</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-8 h-4 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<p class="text-[10px] text-zinc-500">Restricts media/links during set hours.</p>
+</div>
+</div>
+<!-- Scheduling -->
+<div class="space-y-3 transition-opacity duration-300">
+<p class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Curfew Window</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-[11px] text-zinc-400">Start Time</label>
+<input class="bg-surface-container-highest border-none rounded py-2 px-3 text-sm text-white focus:ring-1 focus:ring-secondary/50" type="time" value="00:00"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[11px] text-zinc-400">End Time</label>
+<input class="bg-surface-container-highest border-none rounded py-2 px-3 text-sm text-white focus:ring-1 focus:ring-secondary/50" type="time" value="08:00"/>
+</div>
+</div>
+</div>
+<!-- Banned Words -->
+<div class="space-y-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Banned Lexicon</p>
+<div class="bg-surface-container-lowest p-3 rounded-lg border-b border-outline-variant/30 min-h-[100px] flex flex-wrap gap-2 content-start">
+<span class="bg-zinc-800 text-zinc-300 text-[11px] px-2 py-1 rounded flex items-center gap-1.5">
+                  referral_link <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error">close</span>
+</span>
+<span class="bg-zinc-800 text-zinc-300 text-[11px] px-2 py-1 rounded flex items-center gap-1.5">
+                  earn_money <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error">close</span>
+</span>
+<input class="bg-transparent border-none focus:ring-0 text-[11px] p-0 w-24 placeholder:italic placeholder:text-zinc-700" placeholder="Add word..." type="text"/>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Quick View Card -->
+<section class="mt-8">
+<div class="bg-gradient-to-r from-surface-container to-surface-container-low p-8 rounded-2xl border border-white/5 relative overflow-hidden group">
+<div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="space-y-4 max-w-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">security</span>
+<h2 class="text-xl font-bold text-white">Advanced Heuristics Engine</h2>
+</div>
+<p class="text-zinc-400 text-sm leading-relaxed">
+                Your Runtime Moderator is currently using **Version 4.2 Pattern Matching**. This allows for the detection of subtle spam variations and deep-link harvesting before users see them. Night Mode Curfew can be applied globally to all groups in the 'System Settings' panel.
+              </p>
+<button class="bg-surface-container-highest px-6 py-2.5 rounded-lg border border-outline-variant/40 text-xs font-bold text-white hover:bg-surface-bright transition-colors">
+                View Global Ruleset
+              </button>
+</div>
+<div class="w-full md:w-64 aspect-video bg-surface-container-lowest rounded-xl p-4 border border-zinc-800/50 shadow-2xl">
+<div class="flex flex-col gap-2">
+<div class="h-2 w-full bg-zinc-800 rounded"></div>
+<div class="h-2 w-3/4 bg-zinc-800 rounded"></div>
+<div class="h-2 w-5/6 bg-zinc-800 rounded"></div>
+<div class="h-2 w-1/2 bg-primary/40 rounded mt-2"></div>
+<div class="h-2 w-2/3 bg-secondary/40 rounded"></div>
+</div>
+</div>
+</div>
+<!-- Decorative Glow -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 blur-[100px] pointer-events-none"></div>
+</div>
+</section>
+</div>
+</main>
+<!-- Status Bar -->
+<footer class="fixed bottom-0 left-0 w-full bg-surface-container-lowest h-8 border-t border-zinc-800/20 z-50 px-4 flex items-center justify-between text-[10px] font-bold text-zinc-500 uppercase tracking-widest pl-68">
+<div class="flex items-center gap-6 pl-64">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span>Node: titan-vortex-01-la</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">speed</span>
+<span>Latency: 14ms</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span>CPU: 12%</span>
+<span>MEM: 4.2GB</span>
+</div>
+</footer>
+</body></html>

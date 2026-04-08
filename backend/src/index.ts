@@ -96,11 +96,11 @@ const startServer = async () => {
     await botManager.initAllBots();
 
     app.listen(PORT, () => {
-      console.log(`[Titan Server] In ascolto sulla porta ${PORT}`);
-      console.log(`[Titan Server] Dashboard API: http://localhost:${PORT}/api/bots`);
+      console.log(`[Runtime Server] In ascolto sulla porta ${PORT}`);
+      console.log(`[Runtime Server] Dashboard API: http://localhost:${PORT}/api/bots`);
     });
   } catch (error) {
-    console.error("[Titan Server] Errore fatale all'avvio:", error);
+    console.error("[Runtime Server] Errore fatale all'avvio:", error);
     process.exit(1);
   }
 };

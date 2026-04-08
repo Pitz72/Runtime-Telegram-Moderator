@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Runtime Dash - Bot Fleet Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0e0e;
+        }
+        .glass-panel {
+            background: rgba(38, 38, 38, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .primary-gradient {
+            background: linear-gradient(45deg, #6063ee, #a3a6ff);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#ffffff",
+                        "secondary-dim": "#40b2f0",
+                        "secondary": "#52c0ff",
+                        "primary": "#a3a6ff",
+                        "primary-dim": "#6063ee",
+                        "surface-container-low": "#131313",
+                        "surface-container": "#1a1a1a",
+                        "on-surface-variant": "#adaaaa",
+                        "surface-bright": "#2c2c2c",
+                        "on-primary": "#0f00a4",
+                        "surface-variant": "#262626",
+                        "surface-container-high": "#20201f",
+                        "surface-container-highest": "#262626",
+                        "error": "#ff6e84",
+                        "background": "#0e0e0e",
+                        "surface-dim": "#0e0e0e",
+                        "outline-variant": "#484847",
+                        "surface": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary/30">
+<!-- TopNavBar -->
+<nav class="flex justify-between items-center w-full px-6 h-16 border-b border-zinc-800/50 bg-[#0e0e0e] fixed top-0 z-50 font-['Inter'] text-sm tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-lg font-black tracking-tighter text-white uppercase">Runtime Dash v0.1.0</span>
+<div class="hidden md:flex items-center bg-surface-container-lowest px-3 py-1.5 rounded-lg border border-outline-variant/20">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs w-64 text-on-surface placeholder:text-on-surface-variant" placeholder="Search fleet..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-zinc-500 hover:bg-[#20201f] transition-colors duration-200 rounded-lg active:scale-95">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+</button>
+<button class="p-2 text-zinc-500 hover:bg-[#20201f] transition-colors duration-200 rounded-lg active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-zinc-500 hover:bg-[#20201f] transition-colors duration-200 rounded-lg active:scale-95">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full fixed left-0 top-0 pt-20 pb-4 bg-[#131313] border-r border-zinc-800/30 w-64 font-['Inter'] font-medium text-[13px] hidden md:flex">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="high contrast studio portrait of a futuristic cyborg administrator with glowing blue fiber optic details on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlzvuxSIUQI-h9AIhaZnLk1lMHb7WR4lyUj4fNxoRFFixbYk_EcXnllv9ePttLPe1iGsS_Vdsli90UfC5qzpRoTrAfEMQcbyP8ZLToAcrzYonox5pa-xjI_MtSREIq2hGvSY0kgbsYwefhw8GiFWT_aGsaSnwj2o8TRMGE1epgy6_hMjdB3fiP6kuWA8GD6cf4MbjfnAC7MKTJne-AodpIahuOVZjw59aC3hSfUchVEKUszMrXwz2YY8Lk7Fdjz9SLiZcOXVzH8e_z"/>
+</div>
+<div>
+<p class="text-white font-bold">Runtime Admin</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Superuser</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-white bg-indigo-600/10 border-l-2 border-indigo-500 px-4 py-3" href="#">
+<span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+<span>Bot Fleet</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span>Group Rules</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Activity Logs</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 px-4 py-3 hover:bg-[#1a1a1a] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>System Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full primary-gradient text-on-primary font-bold py-3 rounded-lg active:scale-95 transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                Deploy New Bot
+            </button>
+<div class="pt-4 border-t border-zinc-800/30">
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 py-2" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-500 hover:text-zinc-300 py-2" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="description">description</span>
+<span>Documentation</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 px-8 pb-12">
+<header class="mb-10 flex justify-between items-end">
+<div>
+<h1 class="text-4xl font-black tracking-tight text-on-surface mb-2">Bot Fleet</h1>
+<p class="text-on-surface-variant max-w-md">Orchestrate your automated moderation network. Monitor real-time status and deploy new units across Telegram nodes.</p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/10 text-right">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Total Active</p>
+<p class="text-xl font-bold text-secondary">24 Units</p>
+</div>
+<div class="bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/10 text-right">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Fleet Health</p>
+<p class="text-xl font-bold text-primary">98.2%</p>
+</div>
+</div>
+</header>
+<!-- Fleet Table -->
+<div class="bg-surface-container-low rounded-xl border border-outline-variant/10 overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest/30">
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Bot Name</th>
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">API Token</th>
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Status Badge</th>
+<th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Persistent Toggle</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="smart_toy">smart_toy</span>
+</div>
+<span class="font-bold text-white">Runtime_Alpha_01</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2 font-mono text-xs text-on-surface-variant">
+<span>••••••••••••••••••••••••</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                                Running
+                            </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-secondary">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="shield">shield</span>
+</div>
+<span class="font-bold text-white">Sentinel_Vanguard</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2 font-mono text-xs text-on-surface-variant">
+<span>••••••••••••••••••••••••</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-zinc-800 text-on-surface-variant border border-outline-variant/30">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                                Stopped
+                            </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-zinc-700">
+<span class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-zinc-400 shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="token">token</span>
+</div>
+<span class="font-bold text-white">Neural_Librarian</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2 font-mono text-xs text-on-surface-variant">
+<span>••••••••••••••••••••••••</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                                Running
+                            </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-secondary">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- System Status Bar -->
+<div class="fixed bottom-0 left-64 right-0 h-8 bg-surface-container-lowest flex items-center px-4 justify-between border-t border-outline-variant/10">
+<div class="flex gap-4 items-center">
+<span class="text-[10px] font-bold text-secondary uppercase tracking-widest flex items-center gap-1">
+<span class="w-1 h-1 rounded-full bg-secondary"></span> System Online
+                </span>
+<span class="text-[10px] text-on-surface-variant font-mono">LATENCY: 42ms</span>
+</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-widest">
+                Runtime Dash Kernel v0.1.0-stable
+            </div>
+</div>
+</main>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+<div class="w-full max-w-md bg-surface-container-highest rounded-xl border border-outline-variant/30 shadow-2xl overflow-hidden">
+<div class="p-6 border-b border-outline-variant/20 flex justify-between items-center">
+<h3 class="text-xl font-bold text-white tracking-tight">Deploy New Bot</h3>
+<button class="text-on-surface-variant hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="p-6 space-y-6">
+<div class="space-y-1.5">
+<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Internal Name</label>
+<input class="w-full bg-surface-container-lowest border-0 border-b border-outline-variant focus:border-secondary focus:ring-0 transition-all text-on-surface py-2 text-sm" placeholder="e.g. Moderator_Pro_01" type="text"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Telegram Bot Token</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-0 border-b border-outline-variant focus:border-secondary focus:ring-0 transition-all text-on-surface py-2 text-sm pr-10" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11" type="password"/>
+<span class="material-symbols-outlined absolute right-0 top-2 text-on-surface-variant cursor-pointer text-lg" data-icon="key">key</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1 italic">Obtained from @BotFather on Telegram.</p>
+</div>
+<div class="p-4 bg-primary/5 rounded border border-primary/10 flex gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="info">info</span>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">By deploying, this bot will automatically connect to the Runtime Moderator cloud and await group assignment.</p>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low flex gap-3">
+<button class="flex-1 px-4 py-3 bg-surface-container-highest border border-outline-variant/30 text-on-surface font-bold rounded-lg hover:bg-surface-bright transition-colors text-sm">
+                    Cancel
+                </button>
+<button class="flex-1 px-4 py-3 primary-gradient text-on-primary font-bold rounded-lg active:scale-95 transition-transform text-sm">
+                    Initialize Deployment
+                </button>
+</div>
+</div>
+</div>
+</body></html>
