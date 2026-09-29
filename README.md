@@ -1,4 +1,4 @@
-# 🛡️ Runtime TelegramBot Moderator (v0.1.0) - Multi-Bot Fleet Edition
+# 🛡️ Runtime TelegramBot Moderator (v0.1.1) - Multi-Bot Fleet Edition
 
 <p align="center">
   <img src="PROTOTIPO-INTEFACCIA-TEMP/logo.png" width="25%" alt="Runtime TelegramBot Moderator Logo">
@@ -9,7 +9,7 @@ Benvenuti nel sistema di moderazione Telegram di nuova generazione.
 **Runtime TelegramBot Moderator** è un'applicazione web self-hosted di livello Enterprise progettata per la gestione automatizzata, la moderazione e la sicurezza di molteplici gruppi e canali Telegram.
 
 Alcune caratteristiche principali:
-- **Privacy-First**: Nessun dato lascia il tuo server.
+- **Privacy-First**: Nessun dato lascia il tuo server (token cifrati a riposo con AES-256-GCM).
 - **Multi-Bot**: Gestisci infiniti bot da un'unica dashboard.
 - **Automazione**: Moderazione intelligente 24/7.
 
@@ -33,29 +33,37 @@ Questo progetto è sviluppato da:
 Il sistema si divide in due macro-ambienti (Monorepo), che comunicano tramite API REST:
 
 1. **Il Motore Centrale (Backend Node.js + Bot Manager):**
-    Non esiste un singolo script in ascolto. Il backend utilizza un demone che funge da *Bot Manager*. Questo manager interroga il database e istanzia dinamicamente connessioni Telegram (via long-polling) per ogni bot registrato e contrassegnato come "Attivo". Le istanze dei bot vengono mantenute in memoria tramite una `Map<botId, Istanza>` per consentire lo start/stop in tempo reale senza riavviare il server.
+    Non esiste un singolo script in ascolto. Il backend utilizza un demone che funge da *Bot Manager*. Questo manager interroga il database e istanzia dinamicamente connessioni Telegram (via `@grammyjs/runner`) per ogni bot registrato e contrassegnato come "Attivo". Le istanze dei bot vengono mantenute in memoria tramite una `Map<botId, Istanza>` per consentire lo start/stop in tempo reale senza riavviare il server.
 
 2. **La Dashboard di Controllo (Frontend React):**
     Un'interfaccia utente avanzata (ispirata a software desktop professionali) che permette di aggiungere nuovi bot (tramite Bot Token), assegnarli a specifici gruppi e definire le regole di moderazione in modo granulare (per Bot e per Gruppo).
 
 ### 📡 API REST Interne (Bot Manager)
 
-Il backend espone una serie di endpoint per permettere alla dashboard (o altri client autorizzati) di orchestrare la flotta in tempo reale. Queste chiamate interagiscono direttamente con il `BotManager` e la sua `Map` in memoria:
+Il backend espone una serie di endpoint per permettere alla dashboard (o altri client autorizzati) di orchestrare la flotta in tempo reale. I token non vengono mai esposti in chiaro via API:
 
--   `GET /api/bots`: Recupera la lista di tutti i bot, il loro stato (`isRunning`) e il conteggio dei gruppi configurati.
--   `POST /api/bots`: Registra un nuovo Bot Token nel database.
--   `POST /api/bots/:id/start`: Forza l'inizializzazione e l'avvio del polling per un bot specifico.
--   `POST /api/bots/:id/stop`: Ferma immediatamente l'istanza del bot e la rimuove dalla memoria attiva.
+-   `GET /api/bots`: Recupera la lista di tutti i bot, il loro stato (`isRunning`), username e il conteggio dei gruppi configurati (token mascherati).
+-   `GET /api/bots/:id`: Dettagli approfonditi di un singolo bot.
+-   `POST /api/bots`: Registra un nuovo bot nel database con token cifrato a riposo (AES-256-GCM).
+-   `DELETE /api/bots/:id`: Arresta il bot (se attivo) e lo elimina dal database con cancellazione a cascata.
+-   `POST /api/bots/:id/start`: Avvia un bot con validazione preventiva delle credenziali verso Telegram via `getMe()`.
+-   `POST /api/bots/:id/stop`: Ferma immediatamente l'istanza del bot e sincronizza lo stato nel DB.
+-   `GET /api/logs`: Query paginata dei log di sistema e moderazione (filtri per `botId` e `level`).
+-   `GET /api/bots/:id/groups`: Elenco dei gruppi configurati per un bot.
+-   `POST /api/bots/:id/groups`: Crea o aggiorna la configurazione di moderazione di un gruppo.
 
 ---
 
-## 🟢 Fase 1: Fondamenta Core (COMPLETATA)
+## 🟢 Fase 1: Fondamenta Core & Hardening (COMPLETATA - v0.1.1)
 
 - [x] Inizializzazione Monorepo.
 - [x] Setup SQLite + Prisma 7 (Configurazione ESM/NodeNext).
-- [x] Sviluppo Modelli Relazionali Multi-Tenant (`Bot`, `GroupConfig`, `Log`).
-- [x] Sviluppo `BotManager` (Long-polling dinamico via `grammY` e `Map` in memoria).
-- [x] Sviluppo API REST Express 5 per il controllo della flotta.
+- [x] Sviluppo Modelli Relazionali Multi-Tenant (`Bot`, `GroupConfig`, `Log`) con Cascade Delete e Indici.
+- [x] Concorrenza Database: Modalità WAL (`journal_mode = WAL`) e `busy_timeout` per prevenire lock.
+- [x] Sviluppo `BotManager` con `@grammyjs/runner` (Handshake `getMe()` preventivo, isolamento errori).
+- [x] Sicurezza: Cifratura a riposo AES-256-GCM e mascheramento token sulle API REST.
+- [x] Sviluppo API REST Express 5 per il controllo della flotta (CRUD completo, Logs, Groups, Graceful Shutdown).
+- [x] Suite di Test (Vitest + Supertest) con 26/26 test passati.
 
 ---
 

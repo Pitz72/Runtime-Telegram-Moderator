@@ -35,12 +35,14 @@ FROM node:22-alpine AS prod
 
 WORKDIR /app
 
+# Assicura che la directory per il volume SQLite esista
+RUN mkdir -p /app/data
+
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/prisma/ ./prisma/
 COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/dist/ ./dist/
-
-RUN npm install --omit=dev && npx prisma generate
+COPY --from=builder /app/node_modules/ ./node_modules/
 
 EXPOSE 3000
 

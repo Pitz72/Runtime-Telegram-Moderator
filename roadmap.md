@@ -1,9 +1,9 @@
-# 🛡️ Runtime TelegramBot Moderator (v0.1.0) - Multi-Bot Fleet Edition
+# 🛡️ Runtime TelegramBot Moderator (v0.1.1) - Multi-Bot Fleet Edition
 
-# 🛡️ **Runtime TelegramBot Moderator** è un'applicazione web self-hosted di livello Enterprise progettata per la gestione automatizzata, la moderazione e la sicurezza di molteplici gruppi e canali Telegram.
+**Runtime TelegramBot Moderator** è un'applicazione web self-hosted di livello Enterprise progettata per la gestione automatizzata, la moderazione e la sicurezza di molteplici gruppi e canali Telegram.
 
 Alcune caratteristiche principali:
-- **Privacy-First**: Nessun dato lascia il tuo server.
+- **Privacy-First**: Nessun dato lascia il tuo server (token cifrati a riposo con AES-256-GCM).
 - **Multi-Bot**: Gestisci infiniti bot da un'unica dashboard.
 - **Automazione**: Moderazione intelligente 24/7.
 
@@ -14,12 +14,16 @@ Alcune caratteristiche principali:
 - [x] Implementazione Unit & Integration Tests (BotManager & API).
 - [x] Definizione Linee Guida Operative (CLAUDE.md).
 
-## 🟢 Fase 1: Fondamenta Core (COMPLETATA)
+## 🟢 Fase 1: Fondamenta Core & Security Hardening (COMPLETATA - v0.1.1)
 - [x] Inizializzazione Monorepo.
 - [x] Setup SQLite + Prisma 7 (Configurazione ESM/NodeNext).
-- [x] Sviluppo Modelli Relazionali Multi-Tenant (`Bot`, `GroupConfig`, `Log`).
-- [x] Sviluppo `BotManager` (Long-polling dinamico via `grammY` e `Map` in memoria).
-- [x] Sviluppo API REST Express 5 per il controllo della flotta.
+- [x] Sviluppo Modelli Relazionali Multi-Tenant (`Bot`, `GroupConfig`, `Log`) con Cascade Delete e Indici.
+- [x] Sviluppo `BotManager` con `@grammyjs/runner` (Handshake `getMe()` preventivo, isolamento errori).
+- [x] Sviluppo API REST Express 5 per il controllo della flotta (CRUD completo, Logs, Groups).
+- [x] Sicurezza Token: Cifratura a riposo AES-256-GCM e mascheramento automatico API (`tokenMasked`).
+- [x] Concorrenza Database: Abilitazione modalità WAL (`PRAGMA journal_mode = WAL`) e `busy_timeout = 5000`.
+- [x] Sanificazione Git: Esclusione di `dev.db` e di tutti i file SQLite dal tracciamento.
+- [x] Test Coverage: 26/26 test passati con Vitest.
 
 ---
 

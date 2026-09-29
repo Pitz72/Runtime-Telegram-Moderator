@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "0.1.0",
   "type": "module",
-  "description": "",
+  "description": "Runtime TelegramBot Moderator Backend",
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -23,7 +23,6 @@
     "@types/node": "^25.5.0",
     "@types/supertest": "^6.0.2",
     "@vitest/coverage-v8": "^2.0.0",
-    "nodemon": "^3.1.14",
     "prisma": "^7.5.0",
     "supertest": "^7.0.0",
     "tsx": "^4.19.3",
@@ -31,10 +30,12 @@
     "vitest": "^2.0.0"
   },
   "dependencies": {
+    "@grammyjs/runner": "^2.0.3",
     "@prisma/adapter-better-sqlite3": "^7.5.0",
     "@prisma/client": "^7.5.0",
     "better-sqlite3": "^11.10.0",
     "cors": "^2.8.6",
+    "dotenv": "^16.4.7",
     "express": "^5.2.1",
     "grammy": "^1.41.1"
   }

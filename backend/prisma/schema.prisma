@@ -13,6 +13,7 @@ model Bot {
   id           Int           @id @default(autoincrement())
   name         String
   token        String        @unique
+  username     String?
   isRunning    Boolean       @default(false)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -23,7 +24,7 @@ model Bot {
 model GroupConfig {
   id               Int     @id @default(autoincrement())
   botId            Int
-  bot              Bot     @relation(fields: [botId], references: [id])
+  bot              Bot     @relation(fields: [botId], references: [id], onDelete: Cascade)
   groupId          String
   groupName        String?
   captchaEnabled   Boolean @default(false)
@@ -33,14 +34,19 @@ model GroupConfig {
   bannedWords      String? // Separato da virgole o JSON stringhificato
 
   @@unique([botId, groupId])
+  @@index([botId])
 }
 
 model Log {
   id        Int      @id @default(autoincrement())
   botId     Int
-  bot       Bot      @relation(fields: [botId], references: [id])
+  bot       Bot      @relation(fields: [botId], references: [id], onDelete: Cascade)
   groupId   String?
-  level     String   // INFO, WARN, ERROR
+  level     String   // INFO, WARN, ERROR, CRITICAL
   message   String
   timestamp DateTime @default(now())
+
+  @@index([botId])
+  @@index([timestamp])
+  @@index([level])
 }
